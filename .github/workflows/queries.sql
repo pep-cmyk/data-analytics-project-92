@@ -58,14 +58,14 @@ order by
 select
 	case
 		when c.age between 16 and 25 then '16-25'
-		when c.age between 26 and 45 then '26-45'
+		when c.age between 26 and 40 then '26-40'
 		else '40+'
 		end as age_category, -- разбиваю на категории
 	count(c.customer_id) as age_count -- считаю покупателей
 from customers c
 group by case
 		when c.age between 16 and 25 then '16-25'
-		when c.age between 26 and 45 then '26-45'
+		when c.age between 26 and 40 then '26-40'
 		else '40+'
 		end -- группирую по категориям
 order by age_category;
@@ -107,4 +107,5 @@ from (select		-- создаю подзапрос для того, чтобы п�
 where rn = 1 and price = 0 -- фильтрую, чтобы оставить только тех, у кого цена первой покупки = 0
 
 order by customer_id
+
 

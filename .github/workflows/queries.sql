@@ -25,8 +25,8 @@ inner join sales s
 inner join products p
 	on s.product_id = p.product_id -- присоединяю products для цены
 group by e.employee_id
-having sum(s.quantity *p.price)/count(s.quantity) < (select 
-														floor(sum(s.quantity *p.price)/count(s.quantity))
+having sum(s.quantity *p.price)/sum(s.quantity) < (select 
+														floor(sum(s.quantity *p.price)/sum(s.quantity))
 													from sales s
 													inner join products p 
 														on s.product_id = p.product_id) -- подзапрос, в котором считаю среднюю выручку по всем продавцам
@@ -107,3 +107,4 @@ from (select		-- создаю подзапрос для того, чтобы п�
 where rn = 1 and price = 0 -- фильтрую, чтобы оставить только тех, у кого цена первой покупки = 0
 
 order by customer_id
+

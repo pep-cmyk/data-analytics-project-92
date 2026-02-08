@@ -18,7 +18,7 @@ limit 10; -- ограничение выдачи
 
 select
 	e.first_name || ' ' || e.last_name as seller, -- беру полное имя
-	floor(sum(s.quantity *p.price)/count(s.quantity)) as average_income -- считаю среднюю прибыль и сразу округляю
+	floor(sum(s.quantity *p.price)/sum(s.quantity)) as average_income -- считаю среднюю прибыль и сразу округляю
 from employees e 
 inner join sales s 
 	on e.employee_id = s.sales_person_id -- присоединяю sales для quantity и ключа к products
@@ -105,4 +105,5 @@ from (select		-- создаю подзапрос для того, чтобы п�
 	left join employees e				-- присоединяю для имени продавца
 		on e.employee_id = s.sales_person_id) subquery -- заворачиваю в подзапрос
 where rn = 1 and price = 0 -- фильтрую, чтобы оставить только тех, у кого цена первой покупки = 0
+
 order by customer_id

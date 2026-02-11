@@ -23,7 +23,7 @@ limit 10;
 select
     e.first_name || ' ' || e.last_name as seller,
     --слепляю имена
-    floor(sum(s.quantity * p.price) / count(s.quantity)) as average_income
+    floor(avg(s.quantity * p.price)) as average_income
     --средний доход каждого продавца с округлением
 from employees as e
 inner join sales as s
@@ -32,11 +32,10 @@ inner join products as p
     on s.product_id = p.product_id
 group by e.employee_id
 having
-    sum(sales.quantity * products.price) / count(sales.quantity) < (
+    avg(sales.quantity * products.price) < (
         select
             floor(
-                sum(sales.quantity * products.price)
-                / count(sales.quantity)
+                avg(sales.quantity * products.price)
             )
         from sales
         inner join products
@@ -120,7 +119,9 @@ from (
         on s.customer_id = c.customer_id
     left join employees as e
         on s.sales_person_id = e.employee_id
+    where p.price = 0
 ) as subquery
 --заворачиваю все в подзапрос, чтобы отфильтровать по rn=1
-where subquery.rn = 1 and subquery.price = 0
+where subquery.rn = 1
 order by subquery.customer_id;
+

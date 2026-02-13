@@ -124,4 +124,3 @@ from (
 --заворачиваю все в подзапрос, чтобы отфильтровать по rn=1
 where subquery.rn = 1
 order by subquery.customer_id;
-
